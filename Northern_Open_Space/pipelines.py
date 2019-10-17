@@ -14,7 +14,7 @@ class NorthernOpenSpacePipeline(object):
             host='127.0.0.1',
             port=3306,
             user='root',
-            passwd='0987',
+            passwd='Admin_1127',
             db='area_database',
             charset='utf8')  # 要指定编码，否则中文可能乱码
 

@@ -103,7 +103,7 @@ ITEM_PIPELINES = {
 MYSQL_HOST = '127.0.0.1'
 MYSQL_DB_NAME = 'area_database'  # 数据库名字，请修改
 MYSQL_USER = 'root'  # 数据库账号，请修改
-MYSQL_PASSWORD = '0987'  # 数据库密码，请修改
+MYSQL_PASSWORD = 'Admin_1127'  # 数据库密码，请修改
 MYSQL_PORT = 3306  # 数据库端口
 ENCODE = 'utf8'
 
