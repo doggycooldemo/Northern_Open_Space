@@ -18,6 +18,11 @@ from Northern_Open_Space.pipelines import NorthernOpenSpacePipeline
 #    时，啥也别说了：通过以下命令改密码!!!
 #        ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'yourpassword';
 #
+
+"""
+结果确认：http://data.stats.gov.cn/easyquery.htm?cn=C01
+"""
+
 """
 从"国家统计局"官网爬取行政区域数据
 url:http://www.stats.gov.cn/tjsj/tjbz/tjyqhdmhcxhfdm/2019/index.html
