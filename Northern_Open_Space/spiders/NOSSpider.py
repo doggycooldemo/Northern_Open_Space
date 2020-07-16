@@ -8,13 +8,13 @@ from scrapy.http.request import Request
 from Northern_Open_Space.pipelines import NorthernOpenSpacePipeline
 
 """错误提示："""
-# 1. 2018-01-30 23:48:22  从本项目的一个文件中导入此文件中的某一个类时，需要导入一个完整的路劲。否则提示：ImportError: No module named items
-# 2. 2018-01-30 23:50:11  在 settings文件中编写路径类时，同样需要编写带有路径的文件类，否则不认，同上错误
+# 1. 2019-01-30 23:48:22  从本项目的一个文件中导入此文件中的某一个类时，需要导入一个完整的路劲。否则提示：ImportError: No module named items
+# 2. 2019-01-30 23:50:11  在 settings文件中编写路径类时，同样需要编写带有路径的文件类，否则不认，同上错误
 from Northern_Open_Space.items import ProvinceItem, CityItem
 
 """
 从"国家统计局"官网爬取行政区域数据
-url:http://www.stats.gov.cn/tjsj/tjbz/tjyqhdmhcxhfdm/2016/index.html
+url:http://www.stats.gov.cn/tjsj/tjbz/tjyqhdmhcxhfdm/2019/index.html
 """
 
 
@@ -26,7 +26,7 @@ class NOSSpider(Spider):
     allowed_domains = ["www.stats.gov.cn/tjsj/tjbz/tjyqhdmhcxhfdm"]
 
     # 基础配置 - 开发爬取的地址
-    start_urls = ["http://www.stats.gov.cn/tjsj/tjbz/tjyqhdmhcxhfdm/2016/index.html"]
+    start_urls = ["http://www.stats.gov.cn/tjsj/tjbz/tjyqhdmhcxhfdm/2019/index.html"]
 
     """第一级：省级、直辖市 数据爬取"""
 
@@ -44,7 +44,7 @@ class NOSSpider(Spider):
             province_code = province_href[1:3]
 
             # self.insertIntoProvince(province_code, province_name)
-            cl = "http://www.stats.gov.cn/tjsj/tjbz/tjyqhdmhcxhfdm/2016/" + province_href[1:8]
+            cl = "http://www.stats.gov.cn/tjsj/tjbz/tjyqhdmhcxhfdm/2019/" + province_href[1:8]
             yield Request(url=cl, callback=self.parse_second, dont_filter=True)
 
     def insertIntoProvince(self, province_code, province_name):
@@ -76,7 +76,7 @@ class NOSSpider(Spider):
         city_href = list(set(city_href))
 
         for item in city_href:
-            cl = "http://www.stats.gov.cn/tjsj/tjbz/tjyqhdmhcxhfdm/2016/" + item[1:13]
+            cl = "http://www.stats.gov.cn/tjsj/tjbz/tjyqhdmhcxhfdm/2019/" + item[1:13]
             # 第三级url拼接
             yield Request(url=cl, callback=self.parse_thread, dont_filter=True)
 
@@ -140,7 +140,7 @@ class NOSSpider(Spider):
         county_name = list(set(county_name))
 
         for href, codes in zip(county_href, county_codes):
-            cl = "http://www.stats.gov.cn/tjsj/tjbz/tjyqhdmhcxhfdm/2016/" + codes[1:3] + "/" + href[1:15]
+            cl = "http://www.stats.gov.cn/tjsj/tjbz/tjyqhdmhcxhfdm/2019/" + codes[1:3] + "/" + href[1:15]
             # http://www.stats.gov.cn/tjsj/tjbz/tjyqhdmhcxhfdm/2016/21/13/211321.html
             # 第四级url拼接
             yield Request(url=cl, callback=self.parse_fourth, dont_filter=True)
@@ -205,7 +205,7 @@ class NOSSpider(Spider):
         town_name = list(set(town_name))
 
         for href, code in zip(town_href, town_codes):
-            cl = "http://www.stats.gov.cn/tjsj/tjbz/tjyqhdmhcxhfdm/2016/" + code[1:3] + "/" + code[3:5] + "/" + href[
+            cl = "http://www.stats.gov.cn/tjsj/tjbz/tjyqhdmhcxhfdm/2019/" + code[1:3] + "/" + code[3:5] + "/" + href[
                                                                                                                 1:18]
             # http://www.stats.gov.cn/tjsj/tjbz/tjyqhdmhcxhfdm/2016/21/13/21/211321001.html
             # code : 211321001000
