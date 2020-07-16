@@ -11,10 +11,10 @@ class NorthernOpenSpacePipeline(object):
     def insertIntoTable(self, sql):
         # 创建连接
         conn = pymysql.connect(
-            host='127.0.0.1',
+            host='localhost',
             port=3306,
             user='root',
-            passwd='Admin_1127',
+            passwd='Admin_1126',
             db='area_database',
             charset='utf8')  # 要指定编码，否则中文可能乱码
 

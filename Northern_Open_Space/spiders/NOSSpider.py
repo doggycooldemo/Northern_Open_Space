@@ -9,9 +9,15 @@ from Northern_Open_Space.pipelines import NorthernOpenSpacePipeline
 
 """错误提示："""
 # 1. 2019-01-30 23:48:22  从本项目的一个文件中导入此文件中的某一个类时，需要导入一个完整的路劲。否则提示：ImportError: No module named items
+#
 # 2. 2019-01-30 23:50:11  在 settings文件中编写路径类时，同样需要编写带有路径的文件类，否则不认，同上错误
-from Northern_Open_Space.items import ProvinceItem, CityItem
-
+# from Northern_Open_Space.items import ProvinceItem, CityItem
+#
+# 3. 当连接MySQL数据库提示：
+#        pymysql.err.OperationalError: (1045, u"Access denied for user 'root'@'localhost' (using password: No)")
+#    时，啥也别说了：通过以下命令改密码!!!
+#        ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'yourpassword';
+#
 """
 从"国家统计局"官网爬取行政区域数据
 url:http://www.stats.gov.cn/tjsj/tjbz/tjyqhdmhcxhfdm/2019/index.html
@@ -42,8 +48,9 @@ class NOSSpider(Spider):
             province_href = json.dumps(item_node2.extract(), ensure_ascii=False)
             # 名称 ："37"
             province_code = province_href[1:3]
+            print(province_name+','+province_code+','+province_href)
 
-            # self.insertIntoProvince(province_code, province_name)
+            self.insertIntoProvince(province_code, province_name)
             cl = "http://www.stats.gov.cn/tjsj/tjbz/tjyqhdmhcxhfdm/2019/" + province_href[1:8]
             yield Request(url=cl, callback=self.parse_second, dont_filter=True)
 
@@ -63,7 +70,7 @@ class NOSSpider(Spider):
 
         node_city_href = second.xpath('//tr[@class="citytr"]/td/a/@href')
 
-        # self.insertToCity(node_city)
+        self.insertToCity(node_city)
 
         # 城市href list
         city_href = []
@@ -110,7 +117,7 @@ class NOSSpider(Spider):
         node_county = thread.xpath('//tr[@class="countytr"]/td/a/text()')
         node_county_href = thread.xpath('//tr[@class="countytr"]/td/a/@href')
 
-        # self.insertIntoCounty(node_county)# 县区级 代码list
+        self.insertIntoCounty(node_county)# 县区级 代码list
         county_codes = []
 
         # 县区级 名称list
@@ -176,7 +183,7 @@ class NOSSpider(Spider):
 
         print(json.dumps(node_towntr.extract(), ensure_ascii=False))
 
-        # self.insertIntoTown(node_towntr)# 街道办 代码list
+        self.insertIntoTown(node_towntr)# 街道办 代码list
         town_codes = []
 
         # 街道办 名称list
